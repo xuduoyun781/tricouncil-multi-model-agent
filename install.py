@@ -16,6 +16,16 @@ REPO_ROOT = Path(__file__).resolve().parent
 SOURCE = REPO_ROOT / "plugins" / "tricouncil-agent" / "skills" / "tricouncil"
 
 
+def configure_console() -> None:
+    """Keep multilingual output usable on Windows and in CI terminals."""
+    if os.name != "nt":
+        return
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure:
+            reconfigure(encoding="utf-8", errors="replace")
+
+
 def destination(host: str) -> Path:
     if host == "codex":
         root = Path(os.getenv("CODEX_HOME", Path.home() / ".codex"))
@@ -45,6 +55,7 @@ def install(host: str, force: bool) -> Path:
 
 
 def main() -> int:
+    configure_console()
     parser = argparse.ArgumentParser(description="安装 TriCouncil Skill")
     parser.add_argument("target", choices=["codex", "workbuddy", "all"])
     parser.add_argument("--force", action="store_true", help="备份并更新现有版本")

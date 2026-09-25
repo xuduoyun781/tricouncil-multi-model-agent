@@ -27,6 +27,16 @@ SECRETS_FILE = CONFIG_DIR / "secrets.json"
 PROVIDERS = {"openai_compatible", "anthropic", "gemini", "demo"}
 
 
+def configure_console() -> None:
+    """Keep multilingual output usable on Windows and in CI terminals."""
+    if os.name != "nt":
+        return
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure:
+            reconfigure(encoding="utf-8", errors="replace")
+
+
 def read_json(path: Path) -> dict[str, Any]:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -610,6 +620,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    configure_console()
     args = parser().parse_args()
     try:
         return int(args.handler(args))
