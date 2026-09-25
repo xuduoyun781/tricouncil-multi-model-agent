@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "tricouncil-agent",
+  "version": "1.0.0",
+  "description": "Run staged tasks across multiple AI models with independent review and repair.",
+  "homepage": "https://github.com/xuduoyun781/tricouncil-multi-model-agent",
+  "repository": "https://github.com/xuduoyun781/tricouncil-multi-model-agent",
+  "license": "MIT",
+  "keywords": ["multi-agent", "review", "workflow", "codex", "workbuddy"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "TriCouncil Agent",
+        "shortDescription": "Multi-model execution, review, and repair",
+        "longDescription": "Coordinate configurable AI models through staged execution, independent review, repair, and final delivery.",
+        "developerName": "TriCouncil contributors",
+        "category": "Productivity",
+        "capabilities": ["Multi-model orchestration", "Cross-review"],
+        "defaultPrompt": [
+          "Use TriCouncil to have multiple models execute, review, repair, and deliver this task.",
+          "Configure the models and prompts used by TriCouncil."
+        ]
+      }
+    }
+  }
+}

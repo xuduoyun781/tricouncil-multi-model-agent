@@ -1,0 +1,20 @@
+{
+  "name": "tricouncil",
+  "interface": {
+    "displayName": "TriCouncil Plugins"
+  },
+  "plugins": [
+    {
+      "name": "tricouncil-agent",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tricouncil-agent"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

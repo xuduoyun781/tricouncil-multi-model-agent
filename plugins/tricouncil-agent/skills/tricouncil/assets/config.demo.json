@@ -1,0 +1,12 @@
+{
+  "coordinator":"primary","timeout_seconds":10,"max_output_tokens":1000,"max_context_chars":20000,"retries":0,
+  "agents":[
+    {"id":"primary","label":"主模型","enabled":true,"provider":"demo","base_url":"","model":"demo","api_key_name":"","role":"主任务执行者","system_prompt":"完成核心任务。"},
+    {"id":"validator","label":"验证模型","enabled":true,"provider":"demo","base_url":"","model":"demo","api_key_name":"","role":"独立验证者","system_prompt":"检查问题。"},
+    {"id":"fixer","label":"修复模型","enabled":true,"provider":"demo","base_url":"","model":"demo","api_key_name":"","role":"修复与打包工程师","system_prompt":"修复并整理交付。"}
+  ],
+  "stages":[
+    {"id":"plan","name":"规划","instruction":"形成计划。","workers":["primary"],"reviewers":["validator"]},
+    {"id":"deliver","name":"修复与交付","instruction":"完成、验证并打包。","workers":["fixer"],"reviewers":["primary","validator"]}
+  ]
+}

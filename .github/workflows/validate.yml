@@ -1,0 +1,29 @@
+name: Validate plugin
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile
+        run: python -m py_compile install.py plugins/tricouncil-agent/skills/tricouncil/scripts/tricouncil.py
+      - name: Test orchestration without paid APIs
+        run: python plugins/tricouncil-agent/skills/tricouncil/scripts/tricouncil.py self-test
+      - name: Test Codex installation
+        run: python install.py codex
+        env:
+          CODEX_HOME: ${{ runner.temp }}/codex
+      - name: Test WorkBuddy installation
+        run: python install.py workbuddy
+        env:
+          WORKBUDDY_HOME: ${{ runner.temp }}/workbuddy

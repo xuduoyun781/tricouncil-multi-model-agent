@@ -1,0 +1,18 @@
+{
+  "name": "tricouncil-agent",
+  "version": "1.0.0+codex.20260925152557",
+  "description": "Run staged tasks across multiple AI models with independent review and repair.",
+  "author": {
+    "name": "TriCouncil contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "TriCouncil Agent",
+    "shortDescription": "Multi-model execution, review, and repair.",
+    "longDescription": "Coordinate 2\u20133 model APIs through configurable stages, role prompts, independent review, repair, and final delivery.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use TriCouncil to have multiple models execute, review, repair, and deliver this task."
+  }
+}

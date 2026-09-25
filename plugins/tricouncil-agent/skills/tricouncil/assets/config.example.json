@@ -1,0 +1,48 @@
+{
+  "coordinator": "primary",
+  "timeout_seconds": 120,
+  "max_output_tokens": 3000,
+  "max_context_chars": 50000,
+  "retries": 2,
+  "agents": [
+    {
+      "id": "primary",
+      "label": "主模型",
+      "enabled": true,
+      "provider": "openai_compatible",
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-4.1-mini",
+      "api_key_name": "OPENAI_API_KEY",
+      "role": "主任务执行者",
+      "system_prompt": "理解目标、制定方案并完成核心工作。明确事实与假设，产出必须具体、完整、可直接使用。"
+    },
+    {
+      "id": "validator",
+      "label": "验证模型",
+      "enabled": true,
+      "provider": "anthropic",
+      "base_url": "https://api.anthropic.com",
+      "model": "claude-sonnet-4-20250514",
+      "api_key_name": "ANTHROPIC_API_KEY",
+      "role": "独立验证者",
+      "system_prompt": "检查正确性、遗漏、安全性和可执行性。指出具体问题、影响、验证方法和必要修改。"
+    },
+    {
+      "id": "fixer",
+      "label": "修复与打包模型",
+      "enabled": true,
+      "provider": "gemini",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta",
+      "model": "gemini-2.5-flash",
+      "api_key_name": "GEMINI_API_KEY",
+      "role": "Bug 修复与交付工程师",
+      "system_prompt": "根据产出与审查意见定位缺陷、提出修复、补齐测试，并整理文件清单、运行方式和验收步骤。"
+    }
+  ],
+  "stages": [
+    {"id":"plan","name":"规划","instruction":"拆解目标、约束、风险和验收标准。","workers":["primary","validator"],"reviewers":["fixer"]},
+    {"id":"execute","name":"执行","instruction":"依据已审查计划完成核心交付物。","workers":["primary"],"reviewers":["validator","fixer"]},
+    {"id":"verify","name":"验证","instruction":"独立验证结果并提出有证据的修复要求。","workers":["validator"],"reviewers":["primary","fixer"]},
+    {"id":"repair-package","name":"修复与打包","instruction":"处理问题，补齐测试并形成最终交付清单。","workers":["fixer"],"reviewers":["primary","validator"]}
+  ]
+}

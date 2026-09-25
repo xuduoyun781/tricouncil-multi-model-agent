@@ -1,0 +1,4 @@
+interface:
+  display_name: "TriCouncil 多模型协作"
+  short_description: "让多个 AI 模型分阶段执行任务、交叉审查并修复交付"
+  default_prompt: "使用 TriCouncil 让多个模型协作完成这个任务。"
